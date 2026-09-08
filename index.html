@@ -1,9 +1,20 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#f4f6f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#10171a" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-title" content="家電台帳">
+<meta name="format-detection" content="telephone=no">
 <title>客室家電台帳</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root{
+  color-scheme:light;
   --ground:#f4f6f6;
   --panel:#ffffff;
   --panel-2:#eef1f2;
@@ -19,6 +30,7 @@
   --brass-soft:#f3ead6;
   --ok:#2c7a58;
   --warn:#a8641a;
+  --warn-soft:#fbf1e2;
   --crit:#a63c2e;
   --shadow:0 1px 2px rgba(20,29,33,.06),0 8px 24px -16px rgba(20,29,33,.35);
   --chip-s:38%; --chip-l:93%; --chip-fg-s:48%; --chip-fg-l:29%;
@@ -28,62 +40,44 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#10171a;
-    --panel:#171f23;
-    --panel-2:#1e282c;
-    --line:#2c383d;
-    --line-soft:#232e33;
-    --ink:#e7edee;
-    --ink-2:#a6b5ba;
-    --ink-3:#77878d;
-    --accent:#4fbfae;
-    --accent-ink:#7fd6c7;
-    --accent-soft:#173330;
-    --brass:#cfa451;
-    --brass-soft:#2c2618;
-    --ok:#5ec18f;
-    --warn:#d6a24f;
-    --crit:#e0796a;
+    color-scheme:dark;
+    --ground:#10171a; --panel:#171f23; --panel-2:#1e282c;
+    --line:#2c383d; --line-soft:#232e33;
+    --ink:#e7edee; --ink-2:#a6b5ba; --ink-3:#77878d;
+    --accent:#4fbfae; --accent-ink:#7fd6c7; --accent-soft:#173330;
+    --brass:#cfa451; --brass-soft:#2c2618;
+    --ok:#5ec18f; --warn:#d6a24f; --warn-soft:#2a2214; --crit:#e0796a;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -18px rgba(0,0,0,.9);
     --chip-s:26%; --chip-l:19%; --chip-fg-s:52%; --chip-fg-l:74%;
-    --meter-track:#263337;
-    --focus:#4fbfae;
+    --meter-track:#263337; --focus:#4fbfae;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#10171a;
-  --panel:#171f23;
-  --panel-2:#1e282c;
-  --line:#2c383d;
-  --line-soft:#232e33;
-  --ink:#e7edee;
-  --ink-2:#a6b5ba;
-  --ink-3:#77878d;
-  --accent:#4fbfae;
-  --accent-ink:#7fd6c7;
-  --accent-soft:#173330;
-  --brass:#cfa451;
-  --brass-soft:#2c2618;
-  --ok:#5ec18f;
-  --warn:#d6a24f;
-  --crit:#e0796a;
+  color-scheme:dark;
+  --ground:#10171a; --panel:#171f23; --panel-2:#1e282c;
+  --line:#2c383d; --line-soft:#232e33;
+  --ink:#e7edee; --ink-2:#a6b5ba; --ink-3:#77878d;
+  --accent:#4fbfae; --accent-ink:#7fd6c7; --accent-soft:#173330;
+  --brass:#cfa451; --brass-soft:#2c2618;
+  --ok:#5ec18f; --warn:#d6a24f; --warn-soft:#2a2214; --crit:#e0796a;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -18px rgba(0,0,0,.9);
   --chip-s:26%; --chip-l:19%; --chip-fg-s:52%; --chip-fg-l:74%;
-  --meter-track:#263337;
-  --focus:#4fbfae;
+  --meter-track:#263337; --focus:#4fbfae;
 }
 
 *{box-sizing:border-box}
+html,body{margin:0;padding:0}
 body{
   background:var(--ground);
   color:var(--ink);
-  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-  font-size:14px;
-  line-height:1.65;
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  font-size:14px;line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,.disp{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif;font-weight:700;letter-spacing:.01em}
-.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%}
+[hidden]{display:none!important}
+h1,h2,h3{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif;font-weight:700;letter-spacing:.01em}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:var(--accent-ink)}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
@@ -91,63 +85,44 @@ a{color:var(--accent-ink)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px 72px}
 
 /* ---- header ---- */
-.top{
-  position:sticky;top:0;z-index:30;
-  background:color-mix(in srgb,var(--ground) 88%,transparent);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
-}
+.top{position:sticky;top:0;z-index:30;background:var(--ground);border-bottom:1px solid var(--line)}
 .top-in{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
-.plate{
-  width:38px;height:38px;flex:none;border-radius:7px;
-  background:var(--accent);color:#fff;
-  display:grid;place-items:center;
-  font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:500;letter-spacing:-.04em;
-}
+.plate{width:38px;height:38px;flex:none;border-radius:7px;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:15px;letter-spacing:-.04em}
 .brand h1{margin:0;font-size:18px;line-height:1.2}
 .brand p{margin:1px 0 0;font-size:11.5px;color:var(--ink-3);letter-spacing:.06em}
 .top-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 
-.btn{
-  border:1px solid var(--line);background:var(--panel);
-  padding:7px 13px;border-radius:7px;cursor:pointer;
-  font-size:13px;font-weight:500;white-space:nowrap;
-  transition:background .12s ease,border-color .12s ease;
-}
+.btn{border:1px solid var(--line);background:var(--panel);padding:7px 13px;border-radius:7px;cursor:pointer;
+  font-size:13px;font-weight:500;white-space:nowrap;transition:background .12s ease,border-color .12s ease}
 .btn:hover{background:var(--panel-2)}
 .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn-primary:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
 .btn-ghost{border-color:transparent;background:transparent;color:var(--ink-2)}
 .btn-ghost:hover{background:var(--panel-2);color:var(--ink)}
-.btn-danger{color:var(--crit);border-color:var(--line)}
+.btn-danger{color:var(--crit)}
 .btn-danger:hover{background:color-mix(in srgb,var(--crit) 12%,var(--panel))}
-.btn:disabled{opacity:.45;cursor:not-allowed}
 .btn-sm{padding:4px 9px;font-size:12px;border-radius:6px}
+.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* ---- status banner ---- */
-.banner{
-  margin:16px 0 0;padding:10px 14px;border-radius:var(--radius);
-  border:1px solid var(--line);background:var(--panel);
-  display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink-2);
-}
+/* ---- banners ---- */
+.banner{margin:16px 0 0;padding:11px 14px;border-radius:var(--radius);border:1px solid var(--line);
+  background:var(--panel);display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink-2)}
 .banner strong{color:var(--ink)}
-.banner.warn{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:color-mix(in srgb,var(--warn) 8%,var(--panel))}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none;margin-top:8px}
+.banner .grow{flex:1}
+.banner.warn{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:var(--warn-soft)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none;margin-top:7px}
 .dot.live{background:var(--ok)}
 .dot.off{background:var(--warn)}
 
 /* ---- coverage ---- */
 .cover{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
-.tile{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:14px 16px;text-align:left;cursor:pointer;
-  display:flex;flex-direction:column;gap:2px;
-  transition:border-color .12s ease,transform .12s ease;
-}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;
+  text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;transition:border-color .12s ease}
 .tile:hover{border-color:var(--accent)}
 .tile[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-.tile .k{font-size:11px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.tile .k{font-size:11px;letter-spacing:.1em;color:var(--ink-3)}
 .tile .v{font-size:27px;line-height:1.15;font-weight:700;font-family:"Zen Kaku Gothic New",sans-serif;font-variant-numeric:tabular-nums}
 .tile .v small{font-size:13px;font-weight:500;color:var(--ink-3);margin-left:3px}
 .tile .n{font-size:11.5px;color:var(--ink-3)}
@@ -159,77 +134,56 @@ a{color:var(--accent-ink)}
 /* ---- toolbar ---- */
 .bar{display:flex;gap:10px;align-items:center;margin-top:20px;flex-wrap:wrap}
 .search{position:relative;flex:1 1 260px;min-width:200px}
-.search input{
-  width:100%;padding:9px 12px 9px 34px;border-radius:8px;
-  border:1px solid var(--line);background:var(--panel);
-}
+.search input{width:100%;padding:9px 12px 9px 34px;border-radius:8px;border:1px solid var(--line);background:var(--panel)}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
 select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel)}
-
 .cats{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
-.cat{
-  border:1px solid var(--line);background:var(--panel);border-radius:999px;
-  padding:4px 12px;font-size:12.5px;cursor:pointer;color:var(--ink-2);
-}
+.cat{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 12px;
+  font-size:12.5px;cursor:pointer;color:var(--ink-2)}
 .cat[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .cat b{font-weight:500;font-variant-numeric:tabular-nums;opacity:.65;margin-left:5px}
 
 /* ---- list ---- */
 .list{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:clip}
-.head,.row{
-  display:grid;
+.head,.row{display:grid;
   grid-template-columns:minmax(190px,1.5fr) minmax(170px,1.3fr) minmax(110px,.9fr) 62px 168px;
-  gap:14px;align-items:center;padding:11px 16px;
-}
-.head{
-  background:var(--panel-2);border-bottom:1px solid var(--line);
-  font-size:11px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;
-  position:sticky;top:var(--topbar,68px);z-index:10;
-}
+  gap:14px;align-items:center;padding:11px 16px}
+.head{background:var(--panel-2);border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.1em;
+  color:var(--ink-3);position:sticky;top:68px;z-index:10}
 @supports not (overflow:clip){ .head{position:static} .list{overflow:hidden} }
-.row{border-bottom:1px solid var(--line-soft);cursor:pointer;transition:background .1s ease}
+.row{border-bottom:1px solid var(--line-soft);transition:background .1s ease}
 .row:last-child{border-bottom:0}
 .row:hover{background:var(--panel-2)}
+body.editing .row{cursor:pointer}
 .c-label{display:none}
 .nm{font-weight:500;line-height:1.35}
 .nm .sub{display:block;font-size:11.5px;color:var(--ink-3);font-weight:400}
 .maker{font-size:12px;color:var(--ink-2);line-height:1.3}
-.model{font-size:13px;font-weight:500;letter-spacing:-.01em;word-break:break-all}
-.model.empty{color:var(--warn);font-style:normal;font-family:inherit;font-size:12px}
+.model{font-size:13px;font-weight:500;word-break:break-all;cursor:copy;border-bottom:1px dotted var(--line)}
+.model:hover{color:var(--accent-ink);border-bottom-color:var(--accent)}
+.model.empty{color:var(--warn);font-family:inherit;font-size:12px;cursor:default;border:0}
 .qty{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-2)}
 .qty span{font-size:11px;color:var(--ink-3);margin-left:1px}
 .docs{display:flex;gap:6px;flex-wrap:wrap}
-.doclink{
-  display:inline-flex;align-items:center;gap:4px;
-  border:1px solid var(--line);border-radius:6px;padding:3px 8px;
-  font-size:11.5px;text-decoration:none;color:var(--ink-2);background:var(--panel);
-}
+.doclink{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:6px;
+  padding:3px 8px;font-size:11.5px;text-decoration:none;color:var(--ink-2);background:var(--panel)}
 .doclink:hover{border-color:var(--accent);color:var(--accent-ink)}
 .doclink.official{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));color:var(--accent-ink);background:var(--accent-soft)}
 .doclink.internal{border-color:color-mix(in srgb,var(--brass) 45%,var(--line));color:var(--brass);background:var(--brass-soft)}
 .doclink.miss{border-style:dashed;color:var(--ink-3)}
-.chip{
-  display:inline-block;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:500;
-  background:hsl(var(--h) var(--chip-s) var(--chip-l));
-  color:hsl(var(--h) var(--chip-fg-s) var(--chip-fg-l));
-}
+.chip{display:inline-block;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:500;
+  background:hsl(var(--h) var(--chip-s) var(--chip-l));color:hsl(var(--h) var(--chip-fg-s) var(--chip-fg-l))}
 
 /* ---- empty ---- */
 .empty{padding:44px 24px;text-align:center;color:var(--ink-2)}
 .empty h2{margin:0 0 6px;font-size:17px;color:var(--ink)}
-.empty p{margin:0 auto 18px;max-width:44ch;font-size:13px}
+.empty p{margin:0 auto 18px;max-width:46ch;font-size:13px}
 .empty .row-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 
 /* ---- modal ---- */
-.scrim{
-  position:fixed;inset:0;background:rgba(10,16,18,.5);
-  display:flex;align-items:flex-start;justify-content:center;
-  padding:24px 16px;overflow:auto;z-index:60;
-}
-.sheet{
-  background:var(--panel);border:1px solid var(--line);border-radius:14px;
-  width:min(660px,100%);box-shadow:var(--shadow);
-}
+.scrim{position:fixed;inset:0;background:rgba(10,16,18,.5);display:flex;align-items:flex-start;
+  justify-content:center;padding:24px 16px;overflow:auto;z-index:60}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:min(660px,100%);box-shadow:var(--shadow)}
 .sheet header{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
 .sheet header h2{margin:0;font-size:16px}
 .sheet header .btn-ghost{margin-left:auto}
@@ -240,35 +194,27 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
 .f{display:flex;flex-direction:column;gap:4px}
 .f.span2{grid-column:1/-1}
 .f label{font-size:11.5px;color:var(--ink-3);letter-spacing:.04em}
-.f input,.f select,.f textarea{
-  border:1px solid var(--line);background:var(--ground);border-radius:7px;padding:8px 10px;width:100%;
-}
+.f input,.f select,.f textarea{border:1px solid var(--line);background:var(--ground);border-radius:7px;padding:8px 10px;width:100%}
 .f textarea{resize:vertical;min-height:64px;line-height:1.55}
 .f .hint{font-size:11px;color:var(--ink-3)}
-.sec-title{
-  font-size:11px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;
-  margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--line-soft);
-}
+.sec-title{font-size:11px;letter-spacing:.1em;color:var(--ink-3);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--line-soft)}
 .sec-title:first-child{margin-top:0;padding-top:0;border-top:0}
 .msg{font-size:12px;color:var(--crit)}
-.paste-help{font-size:12px;color:var(--ink-2);background:var(--ground);border:1px solid var(--line-soft);border-radius:8px;padding:10px 12px;margin-bottom:12px}
+.paste-help{font-size:12px;color:var(--ink-2);background:var(--ground);border:1px solid var(--line-soft);
+  border-radius:8px;padding:10px 12px;margin-bottom:12px}
 .paste-help code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink)}
+.steps{margin:0;padding-left:1.2em;font-size:13px;color:var(--ink-2)}
+.steps li{margin-bottom:7px}
+.steps code{font-family:"IBM Plex Mono",monospace;font-size:12px;background:var(--ground);padding:1px 5px;border-radius:4px}
 
-.toast{
-  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
-  background:var(--ink);color:var(--ground);padding:9px 16px;border-radius:8px;
-  font-size:13px;z-index:80;box-shadow:var(--shadow);
-}
-
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--ground);
+  padding:9px 16px;border-radius:8px;font-size:13px;z-index:80;box-shadow:var(--shadow)}
 .foot{margin-top:26px;font-size:11.5px;color:var(--ink-3);line-height:1.8}
 
 @media (max-width:880px){
   .cover{grid-template-columns:1fr}
   .head{display:none}
-  .row{
-    grid-template-columns:1fr;gap:6px;padding:14px 16px;
-    border-bottom:1px solid var(--line);
-  }
+  .row{grid-template-columns:1fr;gap:6px;padding:14px 16px;border-bottom:1px solid var(--line)}
   .row>div{display:flex;gap:10px;align-items:baseline}
   .c-label{display:block;flex:none;width:64px;font-size:11px;color:var(--ink-3)}
   .row .c-name .c-label{display:none}
@@ -276,10 +222,27 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
   .wrap{padding:0 16px 56px}
   .grid2{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion: reduce){
-  *{transition:none!important;animation:none!important}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+
+/* ---- print ---- */
+@media print{
+  :root{--ground:#fff;--panel:#fff;--panel-2:#fff;--line:#999;--line-soft:#ccc;
+        --ink:#000;--ink-2:#333;--ink-3:#555;--accent:#000;--accent-ink:#000;
+        --accent-soft:#fff;--brass:#000;--brass-soft:#fff;--chip-s:0%;--chip-l:92%;--chip-fg-s:0%;--chip-fg-l:20%}
+  .top{position:static;border-bottom:2px solid #000}
+  .top-actions,.bar,.cats,.banner,.tile .meter,.foot{display:none}
+  .cover{grid-template-columns:repeat(3,1fr);page-break-inside:avoid}
+  .head{position:static}
+  .row{page-break-inside:avoid}
+  .doclink{border:0;padding:0}
+  .doclink[href]::after{content:" (" attr(href) ")";font-size:9px;color:#555;word-break:break-all}
+  .doclink.miss{display:none}
+  .list{border:1px solid #000}
+  body{font-size:10.5px}
 }
 </style>
+</head>
+<body>
 
 <header class="top">
   <div class="top-in">
@@ -291,15 +254,19 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
       </div>
     </div>
     <div class="top-actions">
-      <button class="btn" id="btn-paste">まとめて追加</button>
+      <button class="btn" id="btn-print">印刷</button>
       <button class="btn" id="btn-csv">CSV書き出し</button>
-      <button class="btn btn-primary" id="btn-add">＋ 機器を追加</button>
+      <button class="btn" id="btn-edit" aria-pressed="false" hidden>編集</button>
+      <span id="edit-tools" hidden>
+        <button class="btn" id="btn-paste">まとめて追加</button>
+        <button class="btn btn-primary" id="btn-add">＋ 機器を追加</button>
+      </span>
     </div>
   </div>
 </header>
 
 <div class="wrap">
-  <div class="banner" id="status"><span class="dot"></span><div>読み込み中…</div></div>
+  <div class="banner" id="status" hidden></div>
 
   <div class="cover">
     <button class="tile" id="t-all" aria-pressed="true">
@@ -322,7 +289,7 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
 
   <div class="bar">
     <div class="search">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
       <input id="q" type="search" placeholder="機器名・メーカー・型番・設置場所で検索（例: KJ-43 / ダイキン / 冷蔵庫）" aria-label="検索">
     </div>
     <select class="sort" id="sort" aria-label="並び順">
@@ -334,151 +301,192 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
   </div>
 
   <div class="cats" id="cats"></div>
-
   <div class="list" id="list"></div>
 
   <p class="foot">
-    型番は本体側面・背面の銘板、または取扱説明書の表紙で確認できます。同じ機器名でも導入時期でロットが違う場合があるため、部屋タイプごとに行を分けて登録してください。<br>
-    取説PDFはGoogleドライブ等の共有フォルダに置き、そのリンクを「社内PDFリンク」欄に貼り付けます（共有設定は「リンクを知っている全員が閲覧可」に）。
+    型番は本体側面・背面の銘板、または取扱説明書の表紙で確認できます。同じ機器名でも導入時期でロットが違う場合があるため、部屋タイプごとに行を分けて登録してください。型番はクリックでコピーできます。<br>
+    <span id="foot-updated"></span>
   </p>
 </div>
 
 <div id="modal-root"></div>
+
+<script src="data.js"></script>
 <script>
 (function(){
   "use strict";
 
   var CATS = [
-    {id:"空調",     h:200},
-    {id:"映像・音響", h:262},
-    {id:"冷蔵・製氷", h:190},
-    {id:"給湯・調理", h:22},
-    {id:"洗面・美容", h:330},
-    {id:"清掃",     h:150},
-    {id:"照明",     h:44},
-    {id:"通信・IT",  h:222},
-    {id:"安全・防災", h:6},
-    {id:"その他",    h:210}
+    {id:"空調",h:200},{id:"映像・音響",h:262},{id:"冷蔵・製氷",h:190},{id:"給湯・調理",h:22},
+    {id:"洗面・美容",h:330},{id:"清掃",h:150},{id:"照明",h:44},{id:"通信・IT",h:222},
+    {id:"安全・防災",h:6},{id:"その他",h:210}
   ];
   var LOCATIONS = ["客室（全室）","客室（一部）","スイート","ロビー","レストラン","大浴場・浴場","ランドリー","バックヤード","事務所","共用廊下"];
   var MAKERS = ["パナソニック","シャープ","ダイキン","三菱電機","日立","東芝","ソニー","富士通ゼネラル","アイリスオーヤマ","象印","タイガー","ティファール","バルミューダ","コロナ","山善","ホシザキ","LG","ハイセンス","TCL","三菱重工"];
+  var FIELDS = ["id","name","cat","maker","model","serial","loc","qty","url","pdf","installedOn","note","updatedAt"];
+  var DRAFT_KEY = "hk-daicho-draft-v1";
+  /* 編集できるのは URL の末尾に #edit を付けて開いたときだけ。
+     通常のURLは閲覧専用になり、「編集」ボタン自体が出ません。 */
+  var EDIT_ENABLED = location.hash === "#edit";
 
   var EXAMPLES = [
-    {name:"液晶テレビ 43型", cat:"映像・音響", maker:"ソニー", model:"KJ-43X8000H", loc:"客室（全室）", qty:48, url:"https://www.sony.jp/support/tv/", note:"リモコン RMF-TX311J／電池 単4×2"},
-    {name:"ルームエアコン 2.2kW", cat:"空調", maker:"ダイキン", model:"S22ZTES-W", loc:"客室（全室）", qty:48, url:"https://www.daikincc.com/manual/", note:"フィルター清掃 月1回"},
-    {name:"電気ケトル 0.8L", cat:"給湯・調理", maker:"ティファール", model:"KO1501JP", loc:"客室（全室）", qty:52, url:"", note:"予備4台 バックヤード保管"}
+    {name:"液晶テレビ 43型",cat:"映像・音響",maker:"ソニー",model:"KJ-43X8000H",loc:"客室（全室）",qty:48,url:"https://www.sony.jp/support/tv/",note:"リモコン RMF-TX311J／電池 単4×2"},
+    {name:"ルームエアコン 2.2kW",cat:"空調",maker:"ダイキン",model:"S22ZTES-W",loc:"客室（全室）",qty:48,url:"https://www.daikincc.com/manual/",note:"フィルター清掃 月1回"},
+    {name:"電気ケトル 0.8L",cat:"給湯・調理",maker:"ティファール",model:"KO1501JP",loc:"客室（全室）",qty:52,url:"",note:"予備4台 バックヤード保管"}
   ];
 
   var state = {
-    db:null, dl:null, ready:false, demo:false,
-    items:[], q:"", cat:"", flag:"all", sort:"cat", modal:null, delArm:false
+    base:[], baseUpdated:"", items:[], dirty:false, editing:false,
+    q:"", cat:"", flag:"all", sort:"cat", modal:null, delArm:false
   };
 
-  var $ = function(id){ return document.getElementById(id); };
-
+  function $(id){ return document.getElementById(id); }
   function esc(s){
-    return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+    return String(s==null?"":s).replace(/[&<>"']/g,function(c){
       return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
     });
   }
-  function hueOf(cat){
-    for(var i=0;i<CATS.length;i++){ if(CATS[i].id===cat) return CATS[i].h; }
-    return 210;
-  }
-  function norm(s){ return String(s==null?"":s).toLowerCase().replace(/[\s\-‐-―ー_/．.]/g,""); }
+  function hueOf(cat){ for(var i=0;i<CATS.length;i++){ if(CATS[i].id===cat) return CATS[i].h; } return 210; }
+  function norm(s){ return String(s==null?"":s).toLowerCase().replace(/[\s\-‐-―ー_\/．.]/g,""); }
+  function today(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
   function fmtDate(iso){
     if(!iso) return "";
-    var d = new Date(iso);
-    if(isNaN(d)) return "";
+    var d=new Date(iso); if(isNaN(d)) return String(iso);
     return d.getFullYear()+"/"+("0"+(d.getMonth()+1)).slice(-2)+"/"+("0"+d.getDate()).slice(-2);
   }
   function safeUrl(u){
-    u = String(u||"").trim();
+    u=String(u||"").trim();
     if(!u) return "";
-    if(/^https?:\/\//i.test(u)) return u;
+    if(/^(https?|file|smb):\/\//i.test(u)) return u;
     if(/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(u)) return "https://"+u;
+    if(/^[^\s:]+\.(pdf|html?)$/i.test(u) || /^[.\/]/.test(u)) return u;
     return "";
   }
   function toast(msg){
-    var el = document.createElement("div");
-    el.className = "toast";
-    el.textContent = msg;
-    document.body.appendChild(el);
-    setTimeout(function(){ el.remove(); }, 2200);
+    var el=document.createElement("div"); el.className="toast"; el.textContent=msg;
+    document.body.appendChild(el); setTimeout(function(){ el.remove(); },2400);
+  }
+  function newId(){ return "hk"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+  function normalize(v){
+    return {
+      id: String(v.id||newId()),
+      name: String(v.name||""), cat: String(v.cat||"その他"),
+      maker: String(v.maker||""), model: String(v.model||""), serial: String(v.serial||""),
+      loc: String(v.loc||""), qty: Number(v.qty)||0,
+      url: String(v.url||""), pdf: String(v.pdf||""),
+      installedOn: String(v.installedOn||""), note: String(v.note||""),
+      updatedAt: String(v.updatedAt||"")
+    };
+  }
+  function key(it){ return FIELDS.map(function(f){ return String(it[f]); }).join(""); }
+
+  /* ---------- load ---------- */
+
+  function load(){
+    var d = window.HK_DATA || {};
+    state.base = (d.items||[]).map(normalize);
+    state.baseUpdated = d.updated || "";
+    var draft = null;
+    try{ draft = JSON.parse(localStorage.getItem(DRAFT_KEY)||"null"); }catch(e){}
+    if(draft && draft.items && draft.baseUpdated === state.baseUpdated){
+      state.items = draft.items.map(normalize);
+      state.dirty = true;
+    }else{
+      if(draft){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+      state.items = state.base.map(normalize);
+      state.dirty = false;
+    }
   }
 
-  /* ---------- data ---------- */
-
-  function setStatus(kind, html){
-    var box = $("status");
-    box.className = "banner" + (kind==="warn" ? " warn" : "");
-    box.innerHTML = '<span class="dot '+(kind==="live"?"live":kind==="warn"?"off":"")+'"></span><div>'+html+'</div>';
-  }
-
-  function connect(){
-    if(!window.claude || typeof window.claude.use !== "function"){ offline(); return; }
-    window.claude.use("db").then(function(db){
-      if(!db){ offline(); return; }
-      state.db = db;
-      state.ready = true;
-      setStatus("live", "<strong>保存が有効です。</strong>この画面での追加・修正は自動保存され、リンクを開いた全員に共有されます。");
-      db.collection("equipment").onSnapshot(function(snap){
-        var out = [];
-        snap.docs.forEach(function(d){
-          var v = d.data() || {};
-          out.push({
-            id:d.id,
-            name:v.name||"", cat:v.cat||"その他", maker:v.maker||"", model:v.model||"",
-            loc:v.loc||"", qty:Number(v.qty)||0, url:v.url||"", pdf:v.pdf||"",
-            serial:v.serial||"", installedOn:v.installedOn||"", note:v.note||"",
-            updatedAt:v.updatedAt||""
-          });
-        });
-        state.items = out;
-        state.demo = false;
-        render();
-      }, function(err){
-        setStatus("warn", "<strong>一覧を購読できませんでした（"+esc(err.code)+"）。</strong>ページを再読み込みしてください。");
-      });
-    });
-    window.claude.use("downloads").then(function(dl){
-      state.dl = dl;
-      if(!dl) $("btn-csv").style.display = "none";
-    });
-  }
-
-  function offline(){
-    state.ready = false;
-    state.demo = true;
-    state.items = EXAMPLES.map(function(e,i){
-      return {id:"demo"+i, name:e.name, cat:e.cat, maker:e.maker, model:e.model, loc:e.loc,
-              qty:e.qty, url:e.url, pdf:"", serial:"", installedOn:"", note:e.note, updatedAt:""};
-    });
-    setStatus("warn", "<strong>プレビュー表示です。</strong>公開されたページとして開くと保存が有効になります。以下は書式を示す記入例で、保存はされません。");
+  function persist(){
+    state.dirty = true;
+    try{
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({baseUpdated:state.baseUpdated, items:state.items}));
+    }catch(e){
+      toast("この端末に下書きを保存できませんでした。早めに data.js を書き出してください");
+    }
     render();
   }
 
-  function save(item){
-    if(!state.ready){ toast("プレビューでは保存できません"); return Promise.resolve(); }
-    var body = {
-      name:item.name, cat:item.cat, maker:item.maker, model:item.model, loc:item.loc,
-      qty:Number(item.qty)||0, url:item.url, pdf:item.pdf,
-      serial:item.serial, installedOn:item.installedOn, note:item.note,
-      updatedAt:new Date().toISOString()
-    };
-    var col = state.db.collection("equipment");
-    var ref = item.id ? col.doc(item.id) : col.doc();
-    return ref.set(body)["catch"](function(e){
-      toast(e && e.code==="quota_exceeded" ? "登録上限に達しました。不要な行を削除してください" : "保存できませんでした");
-      throw e;
-    });
+  function diff(){
+    var b={},c={},add=0,mod=0,del=0;
+    state.base.forEach(function(i){ b[i.id]=key(i); });
+    state.items.forEach(function(i){ c[i.id]=key(i); });
+    Object.keys(c).forEach(function(k){ if(!(k in b)) add++; else if(b[k]!==c[k]) mod++; });
+    Object.keys(b).forEach(function(k){ if(!(k in c)) del++; });
+    return {add:add,mod:mod,del:del,total:add+mod+del};
   }
 
-  function remove(id){
-    if(!state.ready) return Promise.resolve();
-    return state.db.collection("equipment").doc(id)["delete"]()["catch"](function(){
-      toast("削除できませんでした");
+  /* ---------- write ---------- */
+
+  function upsert(item){
+    var it = normalize(item);
+    it.updatedAt = new Date().toISOString();
+    var found = false;
+    state.items = state.items.map(function(x){
+      if(x.id === it.id){ found = true; return it; }
+      return x;
     });
+    if(!found) state.items.push(it);
+    persist();
+  }
+  function removeItem(id){
+    state.items = state.items.filter(function(x){ return x.id !== id; });
+    persist();
+  }
+
+  /* ---------- download ---------- */
+
+  function download(filename, text, mime){
+    var blob = new Blob([text], {type:(mime||"text/plain")+";charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+  }
+
+  function exportData(){
+    var payload = {
+      updated: today(),
+      items: state.items.map(function(it){
+        var o = {}; FIELDS.forEach(function(f){ o[f] = it[f]; }); return o;
+      })
+    };
+    var text =
+      "/* ==========================================================================\n" +
+      "   客室家電台帳 ― データファイル\n" +
+      "   最終更新: " + payload.updated + "  /  登録 " + payload.items.length + " 件\n" +
+      "   index.html と同じフォルダに、このファイルを data.js として上書きしてください。\n" +
+      "   ========================================================================== */\n\n" +
+      "window.HK_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
+    download("data.js", text, "text/javascript");
+    toast("data.js を書き出しました。サーバー上のファイルを差し替えてください");
+  }
+
+  function exportCsv(){
+    var cols = ["カテゴリ","機器名","メーカー","型番","製造番号","設置場所","台数","メーカー取説URL","社内PDFリンク","導入日","備考","更新日"];
+    var lines = [cols.join(",")];
+    visible().forEach(function(it){
+      lines.push([it.cat,it.name,it.maker,it.model,it.serial,it.loc,it.qty,it.url,it.pdf,it.installedOn,it.note,fmtDate(it.updatedAt)]
+        .map(function(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g," ")+'"'; }).join(","));
+    });
+    download("客室家電台帳_"+today().replace(/-/g,"")+".csv", "﻿"+lines.join("\r\n"), "text/csv");
+  }
+
+  function copyText(t){
+    function fallback(){
+      var ta=document.createElement("textarea");
+      ta.value=t; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      var ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
+      ta.remove();
+      toast(ok ? "型番をコピーしました: "+t : "コピーできませんでした: "+t);
+    }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(t).then(function(){ toast("型番をコピーしました: "+t); }, fallback);
+    }else{ fallback(); }
   }
 
   /* ---------- filtering ---------- */
@@ -492,16 +500,14 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
       if(state.flag==="doc" && (it.url || it.pdf)) return false;
       if(state.flag==="todo" && !needsWork(it)) return false;
       if(!q) return true;
-      var hay = norm(it.name+it.maker+it.model+it.loc+it.cat+it.note+it.serial);
-      return hay.indexOf(q) !== -1;
+      return norm(it.name+it.maker+it.model+it.loc+it.cat+it.note+it.serial).indexOf(q) !== -1;
     });
-    var order = {};
-    CATS.forEach(function(c,i){ order[c.id]=i; });
+    var order={}; CATS.forEach(function(c,i){ order[c.id]=i; });
     out.sort(function(a,b){
       if(state.sort==="name") return a.name.localeCompare(b.name,"ja");
       if(state.sort==="maker") return (a.maker||"んん").localeCompare(b.maker||"んん","ja") || a.name.localeCompare(b.name,"ja");
       if(state.sort==="updated") return String(b.updatedAt).localeCompare(String(a.updatedAt));
-      var d = (order[a.cat]==null?99:order[a.cat]) - (order[b.cat]==null?99:order[b.cat]);
+      var d=(order[a.cat]==null?99:order[a.cat])-(order[b.cat]==null?99:order[b.cat]);
       return d || a.name.localeCompare(b.name,"ja");
     });
     return out;
@@ -509,114 +515,133 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
 
   /* ---------- render ---------- */
 
-  function render(){
-    var all = state.items;
-    var units = all.reduce(function(s,it){ return s + (Number(it.qty)||0); }, 0);
-    var withDoc = all.filter(function(it){ return it.url || it.pdf; }).length;
-    var todo = all.filter(needsWork).length;
-    var cov = all.length ? Math.round(withDoc/all.length*100) : 0;
+  function renderStatus(){
+    var box=$("status"), d=diff();
+    if(state.dirty && d.total){
+      box.hidden=false;
+      box.className="banner warn";
+      var parts=[];
+      if(d.add) parts.push("追加"+d.add+"件");
+      if(d.mod) parts.push("変更"+d.mod+"件");
+      if(d.del) parts.push("削除"+d.del+"件");
+      box.innerHTML='<span class="dot off"></span><div class="grow"><strong>この端末だけに '+parts.join("・")+' の未反映の変更があります。</strong>'+
+        'ほかの人にはまだ見えていません。「data.js を書き出す」を押し、サーバー上の data.js を差し替えると全員に反映されます。</div>'+
+        '<button class="btn btn-primary btn-sm" data-top="export">data.js を書き出す</button>'+
+        '<button class="btn btn-ghost btn-sm" data-top="discard">下書きを破棄</button>';
+    }else if(state.editing){
+      box.hidden=false;
+      box.className="banner";
+      box.innerHTML='<span class="dot live"></span><div class="grow"><strong>編集モードです。</strong>'+
+        '変更はまずこの端末に下書きとして残ります。作業後に「data.js を書き出す」でサーバーへ反映してください。</div>'+
+        '<button class="btn btn-sm" data-top="howto">反映のしかた</button>';
+    }else{
+      box.hidden=true;
+    }
+  }
 
-    $("s-count").textContent = all.length;
-    $("s-units").textContent = all.length ? "総台数 "+units+" 台" : "まだ登録がありません";
-    $("s-cov").innerHTML = cov+'<small>%</small>';
-    $("s-cov-n").textContent = withDoc+" / "+all.length+" 件に取説リンクあり";
-    $("s-meter").style.width = cov+"%";
-    $("s-todo").textContent = todo;
+  function render(){
+    var all=state.items;
+    var units=all.reduce(function(s,it){ return s+(Number(it.qty)||0); },0);
+    var withDoc=all.filter(function(it){ return it.url||it.pdf; }).length;
+    var todo=all.filter(needsWork).length;
+    var cov=all.length?Math.round(withDoc/all.length*100):0;
+
+    $("s-count").textContent=all.length;
+    $("s-units").textContent=all.length?"総台数 "+units+" 台":"まだ登録がありません";
+    $("s-cov").innerHTML=cov+'<small>%</small>';
+    $("s-cov-n").textContent=withDoc+" / "+all.length+" 件に取説リンクあり";
+    $("s-meter").style.width=cov+"%";
+    $("s-todo").textContent=todo;
     $("t-todo").classList.toggle("zero", todo===0 && all.length>0);
-    $("s-todo-n").textContent = todo ? "型番または取説が未登録" : (all.length ? "すべて登録済みです" : "型番または取説が未登録");
+    $("s-todo-n").textContent=todo?"型番または取説が未登録":(all.length?"すべて登録済みです":"型番または取説が未登録");
 
     $("t-all").setAttribute("aria-pressed", state.flag==="all");
     $("t-doc").setAttribute("aria-pressed", state.flag==="doc");
     $("t-todo").setAttribute("aria-pressed", state.flag==="todo");
 
-    // categories
-    var counts = {};
-    all.forEach(function(it){ counts[it.cat] = (counts[it.cat]||0)+1; });
-    var chips = ['<button class="cat" data-cat="" aria-pressed="'+(state.cat===""?"true":"false")+'">すべて<b>'+all.length+'</b></button>'];
+    $("foot-updated").textContent = state.baseUpdated ? "サーバー上のデータ最終更新日: "+state.baseUpdated : "";
+
+    var counts={};
+    all.forEach(function(it){ counts[it.cat]=(counts[it.cat]||0)+1; });
+    var chips=['<button class="cat" data-cat="" aria-pressed="'+(state.cat===""?"true":"false")+'">すべて<b>'+all.length+'</b></button>'];
     CATS.forEach(function(c){
       if(!counts[c.id]) return;
       chips.push('<button class="cat" data-cat="'+esc(c.id)+'" aria-pressed="'+(state.cat===c.id?"true":"false")+'">'+esc(c.id)+'<b>'+counts[c.id]+'</b></button>');
     });
-    $("cats").innerHTML = chips.join("");
+    $("cats").innerHTML=chips.join("");
 
-    // list
-    var rows = visible();
-    var list = $("list");
+    var rows=visible(), list=$("list");
 
     if(!all.length){
-      list.innerHTML =
-        '<div class="empty">'+
-        '<h2>台帳はまだ空です</h2>'+
+      list.innerHTML='<div class="empty"><h2>台帳はまだ空です</h2>'+
         '<p>1行＝1機種で登録します。機器名・メーカー・型番・設置場所を入れておけば、フロントからでも型番と取説がすぐ引けます。</p>'+
-        '<div class="row-actions">'+
-        '<button class="btn btn-primary" data-act="add">＋ 最初の機器を追加</button>'+
-        '<button class="btn" data-act="paste">まとめて貼り付け</button>'+
-        (state.ready ? '<button class="btn btn-ghost" data-act="seed">記入例を3件入れて試す</button>' : '')+
-        '</div></div>';
+        (EDIT_ENABLED
+          ? '<div class="row-actions">'+
+            '<button class="btn btn-primary" data-act="add">＋ 最初の機器を追加</button>'+
+            '<button class="btn" data-act="paste">まとめて貼り付け</button>'+
+            '<button class="btn btn-ghost" data-act="seed">記入例を3件入れて試す</button>'+
+            '</div>'
+          : '<p style="font-size:12px">登録は担当者が行います。</p>')+
+        '</div>';
+      renderStatus();
       return;
     }
     if(!rows.length){
-      list.innerHTML = '<div class="empty"><h2>該当なし</h2><p>検索語や絞り込みを変えてください。</p>'+
+      list.innerHTML='<div class="empty"><h2>該当なし</h2><p>検索語や絞り込みを変えてください。</p>'+
         '<div class="row-actions"><button class="btn" data-act="clear">絞り込みを解除</button></div></div>';
+      renderStatus();
       return;
     }
 
-    var html = '<div class="head"><div>機器</div><div>メーカー / 型番</div><div>設置場所</div><div>台数</div><div>取扱説明書</div></div>';
+    var html='<div class="head"><div>機器</div><div>メーカー / 型番</div><div>設置場所</div><div>台数</div><div>取扱説明書</div></div>';
     rows.forEach(function(it){
-      var docs = [];
-      var u = safeUrl(it.url), p = safeUrl(it.pdf);
+      var docs=[], u=safeUrl(it.url), p=safeUrl(it.pdf);
       if(u) docs.push('<a class="doclink official" href="'+esc(u)+'" target="_blank" rel="noopener" data-stop="1">メーカー公式</a>');
       if(p) docs.push('<a class="doclink internal" href="'+esc(p)+'" target="_blank" rel="noopener" data-stop="1">社内PDF</a>');
       if(!docs.length){
-        var qy = encodeURIComponent(((it.maker||"")+" "+(it.model||it.name)+" 取扱説明書").trim());
+        var qy=encodeURIComponent(((it.maker||"")+" "+(it.model||it.name)+" 取扱説明書").trim());
         docs.push('<a class="doclink miss" href="https://www.google.com/search?q='+qy+'" target="_blank" rel="noopener" data-stop="1">未登録・検索する</a>');
       }
-      html +=
-        '<div class="row" data-id="'+esc(it.id)+'" tabindex="0" role="button">'+
+      var noteLine = it.note ? esc(it.note.split("\n")[0].slice(0,40)) : "";
+      html+='<div class="row" data-id="'+esc(it.id)+'" tabindex="0">'+
         '<div class="c-name"><span class="nm">'+esc(it.name||"（名称未設定）")+
-          '<span class="sub"><span class="chip" style="--h:'+hueOf(it.cat)+'">'+esc(it.cat)+'</span>'+
-          (it.note ? ' '+esc(it.note.split("\n")[0]).slice(0,40) : '')+'</span></span></div>'+
+          '<span class="sub"><span class="chip" style="--h:'+hueOf(it.cat)+'">'+esc(it.cat)+'</span> '+noteLine+'</span></span></div>'+
         '<div><span class="c-label">型番</span><span>'+
-          (it.maker ? '<span class="maker">'+esc(it.maker)+'</span><br>' : '')+
-          (it.model ? '<span class="model mono">'+esc(it.model)+'</span>' : '<span class="model empty">型番 未記入</span>')+
+          (it.maker?'<span class="maker">'+esc(it.maker)+'</span><br>':'')+
+          (it.model?'<span class="model mono" data-copy="'+esc(it.model)+'" data-stop="1" title="クリックでコピー">'+esc(it.model)+'</span>':'<span class="model empty">型番 未記入</span>')+
           '</span></div>'+
         '<div><span class="c-label">設置</span><span class="maker">'+esc(it.loc||"—")+'</span></div>'+
         '<div><span class="c-label">台数</span><span class="qty">'+(it.qty||0)+'<span>台</span></span></div>'+
         '<div><span class="c-label">取説</span><span class="docs">'+docs.join("")+'</span></div>'+
         '</div>';
     });
-    list.innerHTML = html;
+    list.innerHTML=html;
+    renderStatus();
   }
 
   /* ---------- modals ---------- */
 
-  function closeModal(){
-    $("modal-root").innerHTML = "";
-    state.modal = null;
-    state.delArm = false;
-  }
-
+  function closeModal(){ $("modal-root").innerHTML=""; state.modal=null; state.delArm=false; }
   function openModal(html){
-    state.delArm = false;
-    $("modal-root").innerHTML = '<div class="scrim" role="dialog" aria-modal="true"><div class="sheet">'+html+'</div></div>';
-    var f = $("modal-root").querySelector("input,select,textarea");
+    state.delArm=false;
+    $("modal-root").innerHTML='<div class="scrim" role="dialog" aria-modal="true"><div class="sheet">'+html+'</div></div>';
+    var f=$("modal-root").querySelector("input,select,textarea,button");
     if(f) f.focus();
   }
-
-  function opts(arr, sel){
+  function opts(arr,sel){
     return arr.map(function(v){ return '<option value="'+esc(v)+'"'+(v===sel?" selected":"")+'>'+esc(v)+'</option>'; }).join("");
   }
 
   function openEditor(item){
-    var it = item || {id:"",name:"",cat:"空調",maker:"",model:"",loc:"客室（全室）",qty:1,url:"",pdf:"",serial:"",installedOn:"",note:""};
-    state.modal = {kind:"edit", id:it.id};
+    var it=item||{id:"",name:"",cat:"空調",maker:"",model:"",serial:"",loc:"客室（全室）",qty:1,url:"",pdf:"",installedOn:"",note:""};
+    state.modal={kind:"edit",id:it.id};
     openModal(
       '<header><h2>'+(it.id?"機器を編集":"機器を追加")+'</h2><button class="btn btn-ghost" data-act="close">閉じる</button></header>'+
       '<div class="body">'+
         '<div class="sec-title">基本情報</div>'+
         '<div class="grid2">'+
           '<div class="f span2"><label for="e-name">機器名</label><input id="e-name" value="'+esc(it.name)+'" placeholder="例: 液晶テレビ 43型"></div>'+
-          '<div class="f"><label for="e-cat">カテゴリ</label><select id="e-cat">'+opts(CATS.map(function(c){return c.id;}), it.cat)+'</select></div>'+
+          '<div class="f"><label for="e-cat">カテゴリ</label><select id="e-cat">'+opts(CATS.map(function(c){return c.id;}),it.cat)+'</select></div>'+
           '<div class="f"><label for="e-maker">メーカー</label><input id="e-maker" list="dl-maker" value="'+esc(it.maker)+'" placeholder="例: パナソニック"></div>'+
           '<div class="f"><label for="e-model">型番</label><input id="e-model" class="mono" value="'+esc(it.model)+'" placeholder="例: KJ-43X8000H"><span class="hint">本体銘板または取説表紙の表記どおりに</span></div>'+
           '<div class="f"><label for="e-serial">製造番号（任意）</label><input id="e-serial" class="mono" value="'+esc(it.serial)+'"></div>'+
@@ -626,7 +651,7 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
         '<div class="sec-title">取扱説明書</div>'+
         '<div class="grid2">'+
           '<div class="f span2"><label for="e-url">メーカー公式の取説ページ URL</label><input id="e-url" value="'+esc(it.url)+'" placeholder="https://…"><span class="hint">メーカーサイトの型番検索ページを貼ると常に最新版が見られます</span></div>'+
-          '<div class="f span2"><label for="e-pdf">社内PDFリンク（Googleドライブ等）</label><input id="e-pdf" value="'+esc(it.pdf)+'" placeholder="https://drive.google.com/…"><span class="hint">共有設定は「リンクを知っている全員が閲覧可」に</span></div>'+
+          '<div class="f span2"><label for="e-pdf">社内PDFリンク</label><input id="e-pdf" value="'+esc(it.pdf)+'" placeholder="manuals/KJ-43X8000H.pdf など"><span class="hint">同じサーバーの manuals フォルダに置く場合は <span class="mono">manuals/ファイル名.pdf</span> と相対パスで書けます</span></div>'+
         '</div>'+
         '<div class="sec-title">運用メモ</div>'+
         '<div class="grid2">'+
@@ -635,117 +660,139 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
         '</div>'+
         '<p class="msg" id="e-msg" hidden></p>'+
       '</div>'+
-      '<footer>'+
-        (it.id ? '<button class="btn btn-danger" data-act="del">削除</button>' : '')+
-        '<div class="spacer"></div>'+
-        '<button class="btn" data-act="close">キャンセル</button>'+
-        '<button class="btn btn-primary" data-act="save">保存</button>'+
-      '</footer>'+
-      '<datalist id="dl-maker">'+MAKERS.map(function(m){return '<option value="'+esc(m)+'">';}).join("")+'</datalist>'+
-      '<datalist id="dl-loc">'+LOCATIONS.map(function(m){return '<option value="'+esc(m)+'">';}).join("")+'</datalist>'
+      '<footer>'+(it.id?'<button class="btn btn-danger" data-act="del">削除</button>':'')+
+        '<div class="spacer"></div><button class="btn" data-act="close">キャンセル</button>'+
+        '<button class="btn btn-primary" data-act="save">保存</button></footer>'+
+      '<datalist id="dl-maker">'+MAKERS.map(function(m){return '<option value="'+esc(m)+'"></option>';}).join("")+'</datalist>'+
+      '<datalist id="dl-loc">'+LOCATIONS.map(function(m){return '<option value="'+esc(m)+'"></option>';}).join("")+'</datalist>'
     );
   }
 
   function openPaste(){
-    state.modal = {kind:"paste"};
+    state.modal={kind:"paste"};
     openModal(
       '<header><h2>まとめて追加</h2><button class="btn btn-ghost" data-act="close">閉じる</button></header>'+
       '<div class="body">'+
         '<div class="paste-help">1行に1機種。<code>機器名, メーカー, 型番, 設置場所, 台数, 取説URL</code> の順にカンマまたはタブ区切りで貼り付けてください。Excelからそのままコピーできます。後ろの項目は省略可です。</div>'+
-        '<div class="f"><label for="p-text">貼り付け</label><textarea id="p-text" style="min-height:180px" class="mono" placeholder="液晶テレビ 43型, ソニー, KJ-43X8000H, 客室（全室）, 48&#10;電気ケトル, ティファール, KO1501JP, 客室（全室）, 52"></textarea></div>'+
-        '<div class="f" style="margin-top:12px"><label for="p-cat">まとめて設定するカテゴリ</label><select id="p-cat">'+opts(CATS.map(function(c){return c.id;}), "その他")+'</select><span class="hint">追加後に各行で個別に変更できます</span></div>'+
+        '<div class="f"><label for="p-text">貼り付け</label><textarea id="p-text" class="mono" style="min-height:180px" placeholder="液晶テレビ 43型, ソニー, KJ-43X8000H, 客室（全室）, 48&#10;電気ケトル, ティファール, KO1501JP, 客室（全室）, 52"></textarea></div>'+
+        '<div class="f" style="margin-top:12px"><label for="p-cat">まとめて設定するカテゴリ</label><select id="p-cat">'+opts(CATS.map(function(c){return c.id;}),"その他")+'</select><span class="hint">追加後に各行で個別に変更できます</span></div>'+
         '<p class="msg" id="p-msg" hidden></p>'+
       '</div>'+
       '<footer><div class="spacer"></div><button class="btn" data-act="close">キャンセル</button><button class="btn btn-primary" data-act="import">取り込む</button></footer>'
     );
   }
 
+  function openHowto(){
+    state.modal={kind:"howto"};
+    openModal(
+      '<header><h2>変更をサーバーへ反映する</h2><button class="btn btn-ghost" data-act="close">閉じる</button></header>'+
+      '<div class="body"><ol class="steps">'+
+        '<li>編集が一通り終わったら <strong>「data.js を書き出す」</strong> を押します。<code>data.js</code> がダウンロードされます。</li>'+
+        '<li>社内Webサーバーの <code>index.html</code> と同じフォルダにある <code>data.js</code> を、いま落としたファイルで<strong>上書き</strong>します。</li>'+
+        '<li>ページを再読み込みすると、全員に新しい内容が表示されます。</li>'+
+        '<li>取説PDFを一緒に置く場合は、同じフォルダに <code>manuals/</code> を作って PDF を入れ、各行の「社内PDFリンク」に <code>manuals/ファイル名.pdf</code> と書きます。</li>'+
+      '</ol>'+
+      '<p class="paste-help" style="margin-top:16px">上書き前の <code>data.js</code> は日付を付けて残しておくと、間違えたときに戻せます。月1回の <strong>CSV書き出し</strong> もバックアップとして有効です。</p>'+
+      '</div>'+
+      '<footer><div class="spacer"></div><button class="btn btn-primary" data-act="close">わかりました</button></footer>'
+    );
+  }
+
   function readEditor(){
     return {
-      id: state.modal.id,
-      name: $("e-name").value.trim(),
-      cat: $("e-cat").value,
-      maker: $("e-maker").value.trim(),
-      model: $("e-model").value.trim(),
-      serial: $("e-serial").value.trim(),
-      loc: $("e-loc").value.trim(),
+      id: state.modal.id || newId(),
+      name: $("e-name").value.trim(), cat: $("e-cat").value,
+      maker: $("e-maker").value.trim(), model: $("e-model").value.trim(),
+      serial: $("e-serial").value.trim(), loc: $("e-loc").value.trim(),
       qty: Math.max(0, parseInt($("e-qty").value,10)||0),
-      url: $("e-url").value.trim(),
-      pdf: $("e-pdf").value.trim(),
-      installedOn: $("e-inst").value,
-      note: $("e-note").value.trim()
+      url: $("e-url").value.trim(), pdf: $("e-pdf").value.trim(),
+      installedOn: $("e-inst").value, note: $("e-note").value.trim()
     };
   }
 
   function doImport(){
-    var raw = $("p-text").value.split(/\r?\n/);
-    var cat = $("p-cat").value;
-    var rows = [];
+    var raw=$("p-text").value.split(/\r?\n/), cat=$("p-cat").value, rows=[];
     raw.forEach(function(line){
       if(!line.trim()) return;
-      var f = line.indexOf("\t") !== -1 ? line.split("\t") : line.split(",");
-      var name = (f[0]||"").trim();
+      var f = line.indexOf("\t")!==-1 ? line.split("\t") : line.split(",");
+      var name=(f[0]||"").trim();
       if(!name) return;
-      rows.push({
-        id:"", name:name, cat:cat,
-        maker:(f[1]||"").trim(), model:(f[2]||"").trim(), loc:(f[3]||"").trim(),
-        qty:Math.max(0, parseInt((f[4]||"").trim(),10)||0),
-        url:(f[5]||"").trim(), pdf:"", serial:"", installedOn:"", note:""
-      });
+      rows.push({id:newId(),name:name,cat:cat,maker:(f[1]||"").trim(),model:(f[2]||"").trim(),
+        loc:(f[3]||"").trim(),qty:Math.max(0,parseInt((f[4]||"").trim(),10)||0),
+        url:(f[5]||"").trim(),pdf:"",serial:"",installedOn:"",note:""});
     });
     if(!rows.length){
-      var m = $("p-msg"); m.hidden = false; m.textContent = "取り込める行がありませんでした。1列目に機器名を入れてください。";
+      var m=$("p-msg"); m.hidden=false; m.textContent="取り込める行がありませんでした。1列目に機器名を入れてください。";
       return;
     }
-    Promise.all(rows.map(save)).then(function(){
-      closeModal();
-      toast(rows.length+"件を追加しました");
-    })["catch"](function(){});
+    var now=new Date().toISOString();
+    rows.forEach(function(r){ r.updatedAt=now; state.items.push(normalize(r)); });
+    persist();
+    closeModal();
+    toast(rows.length+"件を追加しました");
   }
 
   function seed(){
-    Promise.all(EXAMPLES.map(function(e){
-      return save({id:"",name:e.name,cat:e.cat,maker:e.maker,model:e.model,loc:e.loc,qty:e.qty,
-                   url:e.url,pdf:"",serial:"",installedOn:"",note:e.note});
-    })).then(function(){ toast("記入例を3件入れました。不要になったら行を開いて削除できます"); })["catch"](function(){});
+    var now=new Date().toISOString();
+    EXAMPLES.forEach(function(e){
+      state.items.push(normalize({id:newId(),name:e.name,cat:e.cat,maker:e.maker,model:e.model,
+        loc:e.loc,qty:e.qty,url:e.url,note:e.note,updatedAt:now}));
+    });
+    persist();
+    toast("記入例を3件入れました。不要になったら行を開いて削除できます");
   }
 
-  function exportCsv(){
-    if(!state.dl){ toast("この画面では書き出しできません"); return; }
-    var cols = ["カテゴリ","機器名","メーカー","型番","製造番号","設置場所","台数","メーカー取説URL","社内PDFリンク","導入日","備考","更新日"];
-    var lines = [cols.join(",")];
-    visible().forEach(function(it){
-      lines.push([it.cat,it.name,it.maker,it.model,it.serial,it.loc,it.qty,it.url,it.pdf,it.installedOn,it.note,fmtDate(it.updatedAt)]
-        .map(function(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g," ")+'"'; }).join(","));
-    });
-    var d = new Date();
-    var name = "客室家電台帳_"+d.getFullYear()+("0"+(d.getMonth()+1)).slice(-2)+("0"+d.getDate()).slice(-2)+".csv";
-    state.dl.save({filename:name, data:"﻿"+lines.join("\r\n")}).then(function(){
-      toast("CSVを書き出しました");
-    })["catch"](function(e){
-      if(e && e.code==="declined") return;
-      toast("書き出しできませんでした");
-    });
+  function setEditing(on){
+    if(on && !EDIT_ENABLED) return;
+    state.editing=on;
+    document.body.classList.toggle("editing",on);
+    $("btn-edit").setAttribute("aria-pressed",String(on));
+    $("btn-edit").textContent = on ? "編集を終える" : "編集";
+    $("edit-tools").hidden = !on;
+    render();
   }
 
   /* ---------- events ---------- */
 
-  $("q").addEventListener("input", function(){ state.q = this.value; render(); });
-  $("sort").addEventListener("change", function(){ state.sort = this.value; render(); });
-  $("btn-add").addEventListener("click", function(){ openEditor(null); });
-  $("btn-paste").addEventListener("click", openPaste);
-  $("btn-csv").addEventListener("click", exportCsv);
+  $("q").addEventListener("input",function(){ state.q=this.value; render(); });
+  $("sort").addEventListener("change",function(){ state.sort=this.value; render(); });
+  $("btn-add").addEventListener("click",function(){ openEditor(null); });
+  $("btn-paste").addEventListener("click",openPaste);
+  $("btn-csv").addEventListener("click",exportCsv);
+  $("btn-print").addEventListener("click",function(){ window.print(); });
+  $("btn-edit").addEventListener("click",function(){ setEditing(!state.editing); });
 
-  function setFlag(f){ state.flag = (state.flag===f ? "all" : f); render(); }
-  $("t-all").addEventListener("click", function(){ state.flag="all"; state.cat=""; state.q=""; $("q").value=""; render(); });
-  $("t-doc").addEventListener("click", function(){ setFlag("doc"); });
-  $("t-todo").addEventListener("click", function(){ setFlag("todo"); });
+  function setFlag(f){ state.flag=(state.flag===f?"all":f); render(); }
+  $("t-all").addEventListener("click",function(){ state.flag="all"; state.cat=""; state.q=""; $("q").value=""; render(); });
+  $("t-doc").addEventListener("click",function(){ setFlag("doc"); });
+  $("t-todo").addEventListener("click",function(){ setFlag("todo"); });
 
-  $("cats").addEventListener("click", function(e){
-    var b = e.target.closest(".cat");
+  $("cats").addEventListener("click",function(e){
+    var b=e.target.closest(".cat");
     if(!b) return;
-    state.cat = b.getAttribute("data-cat");
+    state.cat=b.getAttribute("data-cat");
     render();
+  });
+
+  $("status").addEventListener("click",function(e){
+    var b=e.target.closest("[data-top]");
+    if(!b) return;
+    var a=b.getAttribute("data-top");
+    if(a==="export") exportData();
+    if(a==="howto") openHowto();
+    if(a==="discard"){
+      if(b.getAttribute("data-arm")!=="1"){
+        b.setAttribute("data-arm","1");
+        b.textContent="本当に破棄しますか？";
+        b.classList.add("btn-danger");
+        return;
+      }
+      try{ localStorage.removeItem(DRAFT_KEY); }catch(err){}
+      state.items=state.base.map(normalize);
+      state.dirty=false;
+      render();
+      toast("下書きを破棄し、サーバーの内容に戻しました");
+    }
   });
 
   function findItem(id){
@@ -753,75 +800,98 @@ select.sort{padding:9px 10px;border-radius:8px;border:1px solid var(--line);back
     return null;
   }
 
-  $("list").addEventListener("click", function(e){
+  $("list").addEventListener("click",function(e){
+    var cp=e.target.closest("[data-copy]");
+    if(cp){ copyText(cp.getAttribute("data-copy")); return; }
     if(e.target.closest("[data-stop]")) return;
-    var act = e.target.closest("[data-act]");
+    var act=e.target.closest("[data-act]");
     if(act){
-      var a = act.getAttribute("data-act");
-      if(a==="add") openEditor(null);
-      if(a==="paste") openPaste();
-      if(a==="seed") seed();
+      var a=act.getAttribute("data-act");
+      if(a==="add"){ if(!state.editing) setEditing(true); openEditor(null); }
+      if(a==="paste"){ if(!state.editing) setEditing(true); openPaste(); }
+      if(a==="seed"){ if(!state.editing) setEditing(true); seed(); }
       if(a==="clear"){ state.cat=""; state.flag="all"; state.q=""; $("q").value=""; render(); }
       return;
     }
-    var row = e.target.closest(".row");
+    var row=e.target.closest(".row");
     if(!row) return;
-    if(state.demo){ toast("プレビューでは編集できません"); return; }
-    var it = findItem(row.getAttribute("data-id"));
+    if(!state.editing){
+      toast(EDIT_ENABLED ? "編集するには右上の「編集」を押してください" : "このページは閲覧専用です");
+      return;
+    }
+    var it=findItem(row.getAttribute("data-id"));
     if(it) openEditor(it);
   });
 
-  $("list").addEventListener("keydown", function(e){
+  $("list").addEventListener("keydown",function(e){
     if(e.key!=="Enter" && e.key!==" ") return;
-    var row = e.target.closest(".row");
+    var row=e.target.closest(".row");
     if(!row) return;
     e.preventDefault();
     row.click();
   });
 
-  $("modal-root").addEventListener("click", function(e){
+  $("modal-root").addEventListener("click",function(e){
     if(e.target.classList.contains("scrim")){ closeModal(); return; }
-    var act = e.target.closest("[data-act]");
+    var act=e.target.closest("[data-act]");
     if(!act) return;
-    var a = act.getAttribute("data-act");
+    var a=act.getAttribute("data-act");
     if(a==="close"){ closeModal(); return; }
     if(a==="import"){ doImport(); return; }
     if(a==="save"){
-      var it = readEditor();
+      var it=readEditor();
       if(!it.name){
-        var m = $("e-msg"); m.hidden=false; m.textContent="機器名を入力してください。"; $("e-name").focus();
+        var m=$("e-msg"); m.hidden=false; m.textContent="機器名を入力してください。"; $("e-name").focus();
         return;
       }
-      save(it).then(function(){ closeModal(); toast("保存しました"); })["catch"](function(){});
+      upsert(it);
+      closeModal();
+      toast("保存しました（まだこの端末の下書きです）");
       return;
     }
     if(a==="del"){
       if(!state.delArm){
-        state.delArm = true;
-        act.textContent = "本当に削除しますか？";
+        state.delArm=true;
+        act.textContent="本当に削除しますか？";
         act.classList.add("btn-primary");
         act.classList.remove("btn-danger");
         setTimeout(function(){
           if(!state.delArm) return;
-          state.delArm = false;
+          state.delArm=false;
           if(act.isConnected){ act.textContent="削除"; act.classList.remove("btn-primary"); act.classList.add("btn-danger"); }
-        }, 4000);
+        },4000);
         return;
       }
-      var id = state.modal.id;
+      var id=state.modal.id;
       closeModal();
-      remove(id).then(function(){ toast("削除しました"); });
+      removeItem(id);
+      toast("削除しました（まだこの端末の下書きです）");
     }
   });
 
-  document.addEventListener("keydown", function(e){
+  document.addEventListener("keydown",function(e){
     if(e.key==="Escape" && state.modal) closeModal();
     if(e.key==="/" && !state.modal && document.activeElement.tagName!=="INPUT" && document.activeElement.tagName!=="TEXTAREA"){
       e.preventDefault(); $("q").focus();
     }
   });
 
-  render();
-  connect();
+  window.addEventListener("beforeunload",function(e){
+    if(state.dirty && diff().total){ e.preventDefault(); e.returnValue=""; }
+  });
+
+  if(!window.HK_DATA){
+    $("status").hidden=false;
+    $("status").className="banner warn";
+    $("status").innerHTML='<span class="dot off"></span><div><strong>data.js が読み込めませんでした。</strong>'+
+      'index.html と同じフォルダに data.js があるか確認してください。</div>';
+    window.HK_DATA={updated:"",items:[]};
+  }
+
+  load();
+  if(EDIT_ENABLED){ $("btn-edit").hidden=false; setEditing(true); }
+  else render();
 })();
 </script>
+</body>
+</html>
